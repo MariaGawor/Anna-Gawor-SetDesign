@@ -1,0 +1,75 @@
+class ContactForm extends React.Component {
+
+     constructor(props) {
+         super(props);
+         this.state = {
+             info: '',
+             name: '',
+             dep: 'BOK',
+             email: '',
+            msg: '',
+            isValidAll: false
+       };
+    }
+
+    handleSubmit = e => {
+        e.preventDefault();
+        if (this.state.name.length>0 && this.state.email.length>0 && this.state.email.indexOf('@') > -1) {
+            this.setState({
+                info: "Dziękujemy za wiadomość. Wysłano do wydziału: " + this.state.dep,
+                isValidAll: true,
+
+            })
+        }   };
+
+    handleNameChange = e => {
+        const isValid = e.target.value.length > 0;
+        this.setState ({
+            name: e.target.value,
+            info: isValid? '': "Pole imię musi zostać uzupełnione",
+        })
+    };
+
+    handleDepChange = e => {
+        this.setState ({
+            dep: e.target.value,
+        })
+    };
+
+    handleEmailChange = e => {
+        const isValid2 = e.target.value.indexOf('@') > -1;
+        this.setState ({
+            email: e.target.value,
+            info: isValid2? '' :  "Pole email musi zostać uzupełnione i zawierać znak @",
+
+        })
+    };
+
+    handleMsgChange = e => {
+        const isValid3 =  e.target.value.length > 0;
+        this.setState ({
+            msg: e.target.value,
+            info: isValid3? '' : "Pole wiadomość musi zostać uzupełnione",
+        })
+     };
+
+
+     render(){
+         return <form onSubmit={this.handleSubmit}>
+             <div>
+                 <div style={{color: this.state.isValidAll? 'green': 'black'}}>{this.state.info}</div>
+                 <br/>
+                 <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
+                 <select value={this.state.dep} onChange={this.handleDepChange}>
+                     <option value="BOK">BOK</option>
+                     <option value="Dział techniczny">Dział techniczny</option>
+                     <option value="Marketing">Marketing</option>
+                 </select>
+                 <input type="email" value={this.state.email}onChange={this.handleEmailChange}/>
+                <textarea value={this.state.msg} onChange={this.handleMsgChange}/>
+                 <input type="submit" value="Submit" />
+             </div>
+         </form>
+
+     }
+ }
